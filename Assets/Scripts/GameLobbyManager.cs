@@ -1,10 +1,8 @@
 using Assets.Scripts.GameFramework.Core;
 using Assets.Scripts.GameFramework.Manager;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEngine;
 
 public class GameLobbyManager : Singleton<GameLobbyManager>
 {
@@ -16,5 +14,10 @@ public class GameLobbyManager : Singleton<GameLobbyManager>
         };
         bool succeded =await LobbyManager.Instance.CreateLobby(maxPlayer:4,isPrivate:true, playerData);
         return succeded;
+    }
+
+    public string GetLobbyCode()
+    {
+        return LobbyManager.Instance.GetLobbyCode();
     }
 }

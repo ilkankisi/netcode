@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
@@ -13,10 +12,14 @@ public class MenuManager : MonoBehaviour
         _hostButton.onClick.AddListener(onHostClick);
         _joinButton.onClick.AddListener(onJoinClick);
     }
-    void onHostClick()
+    private async void onHostClick()
     {
-        Debug.Log(message:"Host");
-        GameLobbyManager.Instance.CreateLobby();
+        bool succeded =await GameLobbyManager.Instance.CreateLobby();
+        if(succeded)
+        {
+            SceneManager.LoadSceneAsync("Lobby");
+        }
+
     }
     void onJoinClick()
     {

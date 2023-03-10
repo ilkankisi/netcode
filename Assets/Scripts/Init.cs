@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
@@ -11,12 +7,14 @@ public class Init : MonoBehaviour
 {
     async void Start()
     {
+        //Kullanýlan tüm hizmetleri baþlatmak için tek giriþ noktasý.
         await UnityServices.InitializeAsync();
+
         if (UnityServices.State==ServicesInitializationState.Initialized)
         {
-
+            //Oturum açma giriþimi baþarýyla tamamlandýðýnda çaðrýlýr.
             AuthenticationService.Instance.SignedIn += OnSignedIn;
-
+            //Anonim olarak mevcut oyuncuya giriþ yapar. Hiçbir kimlik bilgisi gerekmez ve oturum mevcut cihazla sýnýrlýdýr.
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
             if (AuthenticationService.Instance.IsSignedIn)
