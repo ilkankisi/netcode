@@ -247,7 +247,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 66.85
+  m_fontSize: 66.2
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -531,6 +531,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 438207477}
+  - component: {fileID: 438207478}
   m_Layer: 0
   m_Name: MenuController
   m_TagString: Untagged
@@ -554,6 +555,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &438207478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438207476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f386782f4ccad1b40b0822ccf365a1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hostButton: {fileID: 1618028036}
+  _joinButton: {fileID: 397970394}
 --- !u!1 &581395210
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,7 +1165,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 66.85
+  m_fontSize: 66.2
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

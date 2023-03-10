@@ -5,6 +5,7 @@
     "com.unity.multiplayer.mlapi-patcher": "https://github.com/Unity-Technologies/multiplayer-community-contributions.git?path=/com.unity.multiplayer.mlapi-patcher#release-0.1.0",
     "com.unity.netcode.gameobjects": "1.2.0",
     "com.unity.services.authentication": "2.4.0",
+    "com.unity.services.lobby": "1.0.3",
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.timeline": "1.7.2",
     "com.unity.ugui": "1.0.0",

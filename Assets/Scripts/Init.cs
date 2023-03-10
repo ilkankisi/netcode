@@ -9,7 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class Init : MonoBehaviour
 {
-    // Start is called before the first frame update
     async void Start()
     {
         await UnityServices.InitializeAsync();
@@ -38,11 +37,5 @@ public class Init : MonoBehaviour
     {
         Debug.Log(message:$"Player Id: {AuthenticationService.Instance.PlayerId}");
         Debug.Log(message:$"Token: {AuthenticationService.Instance.AccessToken}");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
