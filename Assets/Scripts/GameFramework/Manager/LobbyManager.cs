@@ -3,11 +3,9 @@ using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
-using System.Diagnostics;
-using Unity.VisualScripting;
 using UnityEngine;
-using System;
 using System.Collections;
+using Unity.Services.Core;
 
 namespace Assets.Scripts.GameFramework.Manager
 {
@@ -19,26 +17,31 @@ namespace Assets.Scripts.GameFramework.Manager
 
         public async Task<bool> CreateLobby(int maxPlayer,bool isPrivate, Dictionary<string,string> data)
         {
+            //Kullanıcının verilerini lobbye tanıtmak için 
+            //GamerTag key'ine sahip ve HostPlayer value'su olan data SerializePlayerData'da lobby modeline dönüştürülür.
             Dictionary<string, PlayerDataObject> playerData = SerializePlayerData(data);
+            //PlayerId,connectionInfo ve lobby modeline dönüştürülen kullanıcının verileri ile bir lobby player'ı oluşturulur.
             Player player = new Player(AuthenticationService.Instance.PlayerId,connectionInfo:null,playerData);
+            //lobby'nin özel olacağı ve lobby'deki oyuncunun bilgisi set edilir.
             CreateLobbyOptions options = new CreateLobbyOptions()
             {
                 IsPrivate = isPrivate,
                 Player = player
             };
             
-            
+            //lobby içindeki oyuncu sayısı belirlenir.
             try
             {
-                _lobby = await LobbyService.Instance.CreateLobbyAsync("Lobby", maxPlayer);
+                _lobby = await LobbyService.Instance.CreateLobbyAsync("Lobby", maxPlayer, options);
+                UnityEngine.Debug.Log(message: $"Lobby created with lobby id{_lobby.Id}");
             }
             catch (System.Exception)
             {
-
                 return false;
             }
-            UnityEngine.Debug.Log(message: $"Lobby created with lobby id{_lobby.Id}");
+            //lobbye bağlanan oyuncuları realtimeda lobbye bağlanmaları sağlanır.
             _heartBeatCoroutine=StartCoroutine(HearthBeatLobbyCoroutine(_lobby.Id,6f));
+            //ana bilgisayarın değişip değişmediğini veya bağlantı bilgilerinin değişip değişmediğini öğrenir.
             _refreshCoroutine = StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1f));
             return true;
         }
@@ -53,7 +56,6 @@ namespace Assets.Scripts.GameFramework.Manager
 
         private IEnumerator RefreshLobbyCoroutine(string lobbyID, float waitTimeSeconds)
         {
-  
                 Task<Lobby> task=LobbyService.Instance.GetLobbyAsync(lobbyID);
                 yield return new WaitUntil(() => task.IsCompleted);
                 Lobby newLobby = task.Result;
@@ -70,6 +72,7 @@ namespace Assets.Scripts.GameFramework.Manager
             {
                 playerData.Add(key, new PlayerDataObject(visibility: PlayerDataObject.VisibilityOptions.Member, value: value));
             }
+            //PlayerDataObject tipindeki lobby model tipine dönüştürülüp yollandı.
             return playerData;
         }
         public void OnApplicationQuit()
@@ -80,9 +83,32 @@ namespace Assets.Scripts.GameFramework.Manager
             }
         }
 
-        internal string GetLobbyCode()
+        public string GetLobbyCode()
         {
             return _lobby?.LobbyCode;
+        }
+
+        public async Task<bool> JoinLobby(string code, Dictionary<string, string> playerData)
+        {
+            //lobby ayarlaması yapılır.
+            JoinLobbyByCodeOptions options= new JoinLobbyByCodeOptions();
+            Player player = new Player(AuthenticationService.Instance.PlayerId, 
+                                       connectionInfo: null, 
+                                       SerializePlayerData(playerData));
+            options.Player = player;
+
+            try
+            {
+                _lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code, options);
+            }
+            catch (System.Exception)
+            {
+
+                return false;
+            }
+
+            _refreshCoroutine = StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1f));
+            return true;
         }
     }
 }
