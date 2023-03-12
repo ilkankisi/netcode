@@ -6,6 +6,8 @@ using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using System.Collections;
 using Unity.Services.Core;
+using System;
+using Assets.Scripts.Game.Events;
 
 namespace Assets.Scripts.GameFramework.Manager
 {
@@ -48,21 +50,27 @@ namespace Assets.Scripts.GameFramework.Manager
 
         private IEnumerator HearthBeatLobbyCoroutine(string lobbyID, float waitTimeSeconds)
         {
- 
-                UnityEngine.Debug.Log(message: "HearthBeat");
+            while (true)
+            {
                 LobbyService.Instance.SendHeartbeatPingAsync(lobbyID);
-                yield return new WaitForSeconds(waitTimeSeconds); 
+                yield return new WaitForSeconds(waitTimeSeconds);
+            }
         }
 
         private IEnumerator RefreshLobbyCoroutine(string lobbyID, float waitTimeSeconds)
         {
-                Task<Lobby> task=LobbyService.Instance.GetLobbyAsync(lobbyID);
+            while (true)
+            {
+                Task<Lobby> task = LobbyService.Instance.GetLobbyAsync(lobbyID);
                 yield return new WaitUntil(() => task.IsCompleted);
                 Lobby newLobby = task.Result;
-                if (newLobby.LastUpdated > _lobby.LastUpdated) 
+                if (newLobby.LastUpdated > _lobby.LastUpdated)
                 {
                     _lobby = newLobby;
+                    Events.LobbyEvents.onLobbyUpdated?.Invoke(_lobby);
                 }
+                yield return new WaitForSeconds(waitTimeSeconds);
+            }
         }
 
         private Dictionary<string, PlayerDataObject> SerializePlayerData(Dictionary<string, string> data)
@@ -109,6 +117,16 @@ namespace Assets.Scripts.GameFramework.Manager
 
             _refreshCoroutine = StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1f));
             return true;
+        }
+
+        public List<Dictionary<string, PlayerDataObject>> GetPlayerData()
+        {
+            List<Dictionary<string, PlayerDataObject>> data = new List<Dictionary<string, PlayerDataObject>>();
+            foreach (Player player in _lobby.Players)
+            {
+                data.Add(player.Data);
+            }
+            return data;
         }
     }
 }
