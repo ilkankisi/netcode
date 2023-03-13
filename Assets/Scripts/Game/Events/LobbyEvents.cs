@@ -12,5 +12,8 @@ namespace Assets.Scripts.Game.Events
     {
         public delegate void LobbyUpdated();
         public static LobbyUpdated onLobbyUpdated;
+
+        public delegate void LobbyReady();
+        public static LobbyReady onLoadRedy;
     }
 }

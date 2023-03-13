@@ -30,7 +30,7 @@ namespace Assets.Scripts.GameFramework.Manager
                 Player = player
             };
 
-            //lobby içindeki oyuncu sayısı belirlenir.
+            //lobby içindeki oyuncu sayısı ve diğer özellikler belirlenir.
             try
             {
                 _lobby = await LobbyService.Instance.CreateLobbyAsync("Lobby", maxPlayer, options);
@@ -138,6 +138,11 @@ namespace Assets.Scripts.GameFramework.Manager
             }
             GameFramework.Events.LobbyEvents.onLobbyUpdated(_lobby);
             return true;
+        }
+
+        public string GetHostId()
+        {
+            return _lobby.HostId;
         }
     }
 }

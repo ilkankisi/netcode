@@ -14,6 +14,8 @@ namespace Assets.Scripts.Game
     {
         private List<LobbyPlayerData> _lobbyPlayerData = new List<LobbyPlayerData>();
         private LobbyPlayerData _localLobbyPlayerData;
+
+        public bool IsHost => _localLobbyPlayerData.Id == LobbyManager.Instance.GetHostId();
         void OnEnable()
         {
             LobbyEvents.onLobbyUpdated += onLobbyUpdated;
@@ -28,24 +30,40 @@ namespace Assets.Scripts.Game
             List<Dictionary<string, PlayerDataObject>> playerData = LobbyManager.Instance.GetPlayerData();
             _lobbyPlayerData.Clear();
 
+            int numberOfPlayerReady = 0;
+
             foreach (Dictionary<string, PlayerDataObject> data in playerData)
             {
                 LobbyPlayerData lobbyPlayerData = new LobbyPlayerData();
+                //Burada id, gametag, isReady keyleri ve value'ları belirlendi.
                 lobbyPlayerData.Initialize(data);
 
+                if (lobbyPlayerData.IsReady)
+                {
+                    numberOfPlayerReady++;
+                }
+
+
+                //Eğer lobby içindeki player Id ve Authenticationdaki player id eşitse lobbydeki player ile Authenticate etmiş player verileri birbirine eşitlenir. 
                 if (lobbyPlayerData.Id == AuthenticationService.Instance.PlayerId)
                 {
                     _localLobbyPlayerData = lobbyPlayerData;
                 }
-
+                //lobbydeki veriler lobbyPlayer listesine eklenir.
                 _lobbyPlayerData.Add(lobbyPlayerData);
             }
 
+            //oyunun lobbysi update edilir.
             Events.LobbyEvents.onLobbyUpdated?.Invoke();
+
+            if (numberOfPlayerReady==lobby.Players.Count)
+            {
+                Events.LobbyEvents.onLoadRedy?.Invoke();
+            }
         }
         public async Task<bool> CreateLobby()
         {
-            //GamerTag isminde Key oluþturuldu ve Value'su HostPlayer yapýldý.
+            //GamerTag isminde Key oluşturuldu ve Value'su HostPlayer yapıldı.
             LobbyPlayerData playerData = new LobbyPlayerData();
             playerData.Initialize(AuthenticationService.Instance.PlayerId, gamertag: "HostPlayer");
             //max 4 kullanýcýya sahip olabilecek özel bir lobby ve oyuncu bilgilerinin bulunduðu

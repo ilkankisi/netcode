@@ -30,7 +30,7 @@ using UnityEngine.UI;
         }
         private async void onHostClick()
         {
-            //Eðer lobby doðru bir þekilde oluþturulduysa sahneyi yükle.
+            //Eğer lobby doğru bir şekilde oluşturulduysa sahneyi yükle.
             bool succeded = await GameLobbyManager.Instance.CreateLobby();
             if (succeded)
             {
