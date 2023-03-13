@@ -57,11 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameFramework\Manager\LobbyManager.cs" />
+    <Compile Include="Assets\Scripts\LobbyUI.cs" />
     <Compile Include="Assets\Scripts\MenuManager.cs" />
     <Compile Include="Assets\Scripts\GameFramework\Core\Singleton.cs" />
     <Compile Include="Assets\Scripts\GameLobbyManager.cs" />
     <Compile Include="Assets\Scripts\Init.cs" />
-    <Compile Include="Assets\Scripts\LobbyUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
