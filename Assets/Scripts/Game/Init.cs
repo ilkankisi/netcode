@@ -1,4 +1,4 @@
-using Unity.Services.Authentication;
+ï»¿using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,14 +9,14 @@ namespace Assets.Scripts.Game
     {
         async void Start()
         {
-            //Kullanılan tüm hizmetleri başlatmak için tek giriş noktası.
+            //KullanÃ½lan tÃ¼m hizmetleri baÃ¾latmak iÃ§in tek giriÃ¾ noktasÃ½.
             await UnityServices.InitializeAsync();
 
             if (UnityServices.State == ServicesInitializationState.Initialized)
             {
-                //Oturum açma girişimi başarıyla tamamlandığında çağrılır.
+                //Oturum aÃ§ma giriÃ¾imi baÃ¾arÃ½yla tamamlandÃ½Ã°Ã½nda Ã§aÃ°rÃ½lÃ½r.
                 AuthenticationService.Instance.SignedIn += OnSignedIn;
-                //Anonim olarak mevcut oyuncuya giriş yapar. Hiçbir kimlik bilgisi gerekmez ve oturum mevcut cihazla sınırlıdır.
+                //Anonim olarak mevcut oyuncuya giriÃ¾ yapar. HiÃ§bir kimlik bilgisi gerekmez ve oturum mevcut cihazla sÃ½nÃ½rlÃ½dÃ½r.
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
                 if (AuthenticationService.Instance.IsSignedIn)
@@ -40,4 +40,3 @@ namespace Assets.Scripts.Game
         }
     }
 }
-

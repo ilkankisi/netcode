@@ -1,4 +1,4 @@
-using TMPro;
+ï»¿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Game
         }
         private async void onHostClick()
         {
-            //Eðer lobby doðru bir þekilde oluþturulduysa sahneyi yükle.
+            //EÃ°er lobby doÃ°ru bir Ã¾ekilde oluÃ¾turulduysa sahneyi yÃ¼kle.
             bool succeded = await GameLobbyManager.Instance.CreateLobby();
             if (succeded)
             {
@@ -54,4 +54,3 @@ namespace Assets.Scripts.Game
         }
     }
 }
-

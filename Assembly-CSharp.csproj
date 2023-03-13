@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{74EA71FB-79A0-4930-9E27-EECBBAA7A866}</ProjectGuid>
+    <ProjectGuid>{2587064C-9DDB-63F5-F499-FC57C83E08FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -56,11 +56,19 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Game\LobbyUI.cs" />
+    <Compile Include="Assets\Scripts\Game\Init.cs" />
     <Compile Include="Assets\Scripts\GameFramework\Manager\LobbyManager.cs" />
+    <Compile Include="Assets\Scripts\Game\MenuManager.cs" />
+    <Compile Include="Assets\Scripts\Game\LobbyPlayer.cs" />
+    <Compile Include="Assets\Scripts\Game\Data\LobbyPlayerData.cs" />
+    <Compile Include="Assets\Scripts\Game\LobbySpawner.cs" />
+    <Compile Include="Assets\Scripts\Game\GameLobbyManager.cs" />
     <Compile Include="Assets\Scripts\LobbyUI.cs" />
     <Compile Include="Assets\Scripts\MenuManager.cs" />
+    <Compile Include="Assets\Scripts\GameFramework\Events\LobbyEvents.cs" />
+    <Compile Include="Assets\Scripts\Game\Events\LobbyEvents.cs" />
     <Compile Include="Assets\Scripts\GameFramework\Core\Singleton.cs" />
-    <Compile Include="Assets\Scripts\GameLobbyManager.cs" />
     <Compile Include="Assets\Scripts\Init.cs" />
   </ItemGroup>
   <ItemGroup>

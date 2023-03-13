@@ -1,4 +1,4 @@
-using Assets.Scripts.Game.Data;
+ï»¿using Assets.Scripts.Game.Data;
 using Assets.Scripts.GameFramework.Core;
 using Assets.Scripts.GameFramework.Events;
 using Assets.Scripts.GameFramework.Manager;
@@ -45,11 +45,11 @@ namespace Assets.Scripts.Game
         }
         public async Task<bool> CreateLobby()
         {
-            //GamerTag isminde Key oluþturuldu ve Value'su HostPlayer yapýldý.
+            //GamerTag isminde Key oluÃ¾turuldu ve Value'su HostPlayer yapÃ½ldÃ½.
             LobbyPlayerData playerData = new LobbyPlayerData();
             playerData.Initialize(AuthenticationService.Instance.PlayerId, gamertag: "HostPlayer");
-            //max 4 kullanýcýya sahip olabilecek özel bir lobby ve oyuncu bilgilerinin bulunduðu
-            //bir lobby oluþturulduysa buradan baþarýlý bir þekilde ayrýlýr
+            //max 4 kullanÃ½cÃ½ya sahip olabilecek Ã¶zel bir lobby ve oyuncu bilgilerinin bulunduÃ°u
+            //bir lobby oluÃ¾turulduysa buradan baÃ¾arÃ½lÃ½ bir Ã¾ekilde ayrÃ½lÃ½r
             bool succeded = await LobbyManager.Instance.CreateLobby(maxPlayer: 4, isPrivate: true, playerData.Serialize());
             return succeded;
         }
@@ -61,7 +61,7 @@ namespace Assets.Scripts.Game
 
         public async Task<bool> JoinLobby(string code)
         {
-            //lobby codu ve oyuncu verileri ile lobby'ye giriþ yapýlýr.
+            //lobby codu ve oyuncu verileri ile lobby'ye giriÃ¾ yapÃ½lÃ½r.
             LobbyPlayerData playerData = new LobbyPlayerData();
             playerData.Initialize(AuthenticationService.Instance.PlayerId, gamertag: "JoinPlayer");
             bool succeded = await LobbyManager.Instance.JoinLobby(code, playerData.Serialize());
@@ -74,4 +74,3 @@ namespace Assets.Scripts.Game
         }
     }
 }
-
