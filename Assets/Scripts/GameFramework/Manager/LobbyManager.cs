@@ -120,5 +120,24 @@ namespace Assets.Scripts.GameFramework.Manager
             }
             return data;
         }
+
+        public async Task<bool> UpdatePlayerData(string playerId, Dictionary<string, string> data)
+        {
+            Dictionary<string, PlayerDataObject> plyerData = SerializePlayerData(data);
+            UpdatePlayerOptions options = new UpdatePlayerOptions()
+            {
+                Data= plyerData,
+            };
+            try
+            {
+                _lobby=await LobbyService.Instance.UpdatePlayerAsync(_lobby.Id, playerId,options);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            GameFramework.Events.LobbyEvents.onLobbyUpdated(_lobby);
+            return true;
+        }
     }
 }

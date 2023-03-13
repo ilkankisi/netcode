@@ -64,7 +64,6 @@
     <Compile Include="Assets\Scripts\Game\Data\LobbyPlayerData.cs" />
     <Compile Include="Assets\Scripts\Game\LobbySpawner.cs" />
     <Compile Include="Assets\Scripts\Game\GameLobbyManager.cs" />
-    <Compile Include="Assets\Scripts\LobbyUI.cs" />
     <Compile Include="Assets\Scripts\MenuManager.cs" />
     <Compile Include="Assets\Scripts\GameFramework\Events\LobbyEvents.cs" />
     <Compile Include="Assets\Scripts\Game\Events\LobbyEvents.cs" />

@@ -68,9 +68,15 @@ namespace Assets.Scripts.Game
             return succeded;
         }
 
-        internal List<LobbyPlayerData> GetPlayers()
+        public List<LobbyPlayerData> GetPlayers()
         {
             return _lobbyPlayerData;
+        }
+
+        public async Task<bool> SetPlayerReady()
+        {
+            _localLobbyPlayerData.IsReady = true;
+            return await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id,_localLobbyPlayerData.Serialize());
         }
     }
 }
