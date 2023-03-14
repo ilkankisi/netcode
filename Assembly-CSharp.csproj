@@ -69,6 +69,9 @@
     <Compile Include="Assets\Scripts\Game\Events\LobbyEvents.cs" />
     <Compile Include="Assets\Scripts\GameFramework\Core\Singleton.cs" />
     <Compile Include="Assets\Scripts\Init.cs" />
+    <Compile Include="Assets\Scripts\GameFramework\Manager\RelayManager.cs" />
+    <Compile Include="Assets\Scripts\GameFramework\Core\MapSelectionData.cs" />
+    <Compile Include="Assets\Scripts\Game\Data\Data.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

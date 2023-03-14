@@ -1,22 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Unity.Services.Core;
 using System;
-using Assets.Scripts.Game.Events;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Lobbies;
+using Assets.Scripts.GameFramework.Core;
 
 namespace Assets.Scripts.GameFramework.Manager
 {
-    public class LobbyManager : Core.Singleton<LobbyManager>
+    public class LobbyManager : Singleton<LobbyManager>
     {
         private Lobby _lobby;
         private Coroutine _heartBeatCoroutine;
         private Coroutine _refreshCoroutine;
-        public async Task<bool> CreateLobby(int maxPlayer, bool isPrivate, Dictionary<string, string> data)
+        public async Task<bool> CreateLobby(int maxNumberOfPlayers, int maxPlayer, bool isPrivate, Dictionary<string, string> data, Dictionary<string, string> lobbyData)
         {
             //Kullanıcının verilerini lobbye tanıtmak için 
             //GamerTag key'ine sahip ve HostPlayer value'su olan data SerializePlayerData'da lobby modeline dönüştürülür.
@@ -26,6 +25,7 @@ namespace Assets.Scripts.GameFramework.Manager
             //lobby'nin özel olacağı ve lobby'deki oyuncunun bilgisi set edilir.
             CreateLobbyOptions options = new CreateLobbyOptions()
             {
+                Data = SerializeLobbyData(lobbyData),
                 IsPrivate = isPrivate,
                 Player = player
             };
@@ -34,9 +34,9 @@ namespace Assets.Scripts.GameFramework.Manager
             try
             {
                 _lobby = await LobbyService.Instance.CreateLobbyAsync("Lobby", maxPlayer, options);
-                UnityEngine.Debug.Log(message: $"Lobby created with lobby id{_lobby.Id}");
+                Debug.Log(message: $"Lobby created with lobby id{_lobby.Id}");
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -49,7 +49,7 @@ namespace Assets.Scripts.GameFramework.Manager
         private IEnumerator HearthBeatLobbyCoroutine(string lobbyID, float waitTimeSeconds)
         {
 
-            UnityEngine.Debug.Log(message: "HearthBeat");
+            Debug.Log(message: "HearthBeat");
             while (true)
             {
                 LobbyService.Instance.SendHeartbeatPingAsync(lobbyID);
@@ -81,6 +81,17 @@ namespace Assets.Scripts.GameFramework.Manager
             //PlayerDataObject tipindeki lobby model tipine dönüştürülüp yollandı.
             return playerData;
         }
+
+        private Dictionary<string, DataObject> SerializeLobbyData(Dictionary<string, string> data)
+        {
+            Dictionary<string, DataObject> lobbyData = new Dictionary<string, DataObject>();
+            foreach (var (key, value) in data)
+            {
+                lobbyData.Add(key, new DataObject(visibility: DataObject.VisibilityOptions.Member, value: value));
+            }
+            //PlayerDataObject tipindeki lobby model tipine dönüştürülüp yollandı.
+            return lobbyData;
+        }
         public void OnApplicationQuit()
         {
             if (_lobby != null && _lobby.HostId == AuthenticationService.Instance.PlayerId)
@@ -104,7 +115,7 @@ namespace Assets.Scripts.GameFramework.Manager
             {
                 _lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code, options);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -136,10 +147,28 @@ namespace Assets.Scripts.GameFramework.Manager
             {
                 return false;
             }
-            GameFramework.Events.LobbyEvents.onLobbyUpdated(_lobby);
+            Events.LobbyEvents.onLobbyUpdated(_lobby);
             return true;
         }
 
+        public async Task<bool> UpdateLobbyData(Dictionary<string, string> data)
+        {
+            Dictionary<string, DataObject> lobbyData = SerializeLobbyData(data);
+            UpdateLobbyOptions options = new UpdateLobbyOptions()
+            {
+                Data = lobbyData,
+            };
+            try
+            {
+                _lobby = await LobbyService.Instance.UpdateLobbyAsync(_lobby.Id, options);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            Events.LobbyEvents.onLobbyUpdated(_lobby);
+            return true;
+        }
         public string GetHostId()
         {
             return _lobby.HostId;
